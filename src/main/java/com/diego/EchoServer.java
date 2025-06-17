@@ -8,16 +8,20 @@ public class EchoServer {
 		ServerSocket serverSocket = null;
 		try {
 			serverSocket = new ServerSocket(35000);
+			System.out.println("Server started on port 35000. Waiting for client...");
 		} catch (IOException e) {
 			System.err.println("Could not listen on port: 35000.");
+			e.printStackTrace();
 			System.exit(1);
 		}
 
 		Socket clientSocket = null;
 		try {
 			clientSocket = serverSocket.accept();
+			System.out.println("Client connected.");
 		} catch (IOException e) {
 			System.err.println("Accept failed.");
+			e.printStackTrace();
 			System.exit(1);
 		}
 
@@ -30,34 +34,48 @@ public class EchoServer {
 		while ((inputLine = in.readLine()) != null) {
 			System.out.println("Mensaje: " + inputLine);
             String funcion = "sin";
-            if(inputLine.contains("fun:")){
-                if(inputLine.contains("fun:sin")){
-                    funcion = "sin";
-					String[] parts = inputLine.split(":");
-                    System.out.println(parts);
-					int doubledValue = (int) Math.sin(Integer.parseInt(parts[1]));
-			        inputLine = String.valueOf(doubledValue);
-				}else if(inputLine.contains("fun:cos")){
-					funcion = "cos";
-					int doubledValue = (int) Math.cos(Integer.parseInt(inputLine));
-					inputLine = String.valueOf(doubledValue);
-				} else if(inputLine.contains("fun:tan")){
-					funcion = "tan";
-					int doubledValue = (int) Math.tan(Integer.parseInt(inputLine));
-					inputLine = String.valueOf(doubledValue);
-				} else{
-					if(funcion.equals("sin")){
-						int doubledValue = (int) Math.sin(Integer.parseInt(inputLine));
-						inputLine = String.valueOf(doubledValue);
-					} else if(funcion.equals("cos")){
-						int doubledValue = (int) Math.cos(Integer.parseInt(inputLine));
-						inputLine = String.valueOf(doubledValue);
-					} else if(funcion.equals("tan")){
-						int doubledValue = (int) Math.tan(Integer.parseInt(inputLine));
-						inputLine = String.valueOf(doubledValue);
-					}
-				}
-			}else{
+            if (inputLine.startsWith("fun:")) {
+                String[] parts = inputLine.split(":");
+                if (parts.length == 2) {
+                    funcion = parts[1];
+                    try {
+                        if (funcion.startsWith("sin")) {
+                            String[] funcParts = funcion.split(" ");
+                            if (funcParts.length == 2) {
+                                double value = Double.parseDouble(funcParts[1]);
+                                double result = Math.sin(value);
+                                inputLine = "Result: " + String.valueOf(result);
+                            } else {
+                                inputLine = "Invalid function format.";
+                            }
+                        } else if(funcion.startsWith("cos")) {
+                            String[] funcParts = funcion.split(" ");
+                            if (funcParts.length == 2) {
+                                double value = Double.parseDouble(funcParts[1]);
+                                double result = Math.cos(value);
+                                inputLine = "Result: " + String.valueOf(result);
+                            } else {
+                                inputLine = "Invalid function format.";
+                            }
+                        } else if(funcion.startsWith("tan")) {
+                            String[] funcParts = funcion.split(" ");
+                            if (funcParts.length == 2) {
+                                double value = Double.parseDouble(funcParts[1]);
+                                double result = Math.tan(value);
+                                inputLine = "Result: " + String.valueOf(result);
+                            } else {
+                                inputLine = "Invalid function format.";
+                            }
+                        } else{
+                            inputLine = "Error: Unsupported function. Use sin, cos, or tan.";
+                        }
+                    } catch (NumberFormatException e) {
+                        inputLine = "Error: Invalid number format.";
+                    }
+                }else{
+                    inputLine = "Error: Invalid function format. Use fun:sin <value>, fun:cos <value>, or fun:tan <value>.";
+                }
+            }else{
 			    int doubledValue = Integer.parseInt(inputLine) * 2;
 			    inputLine = String.valueOf(doubledValue);
 			}
