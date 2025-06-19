@@ -34,7 +34,7 @@ public class EchoServer {
 		while ((inputLine = in.readLine()) != null) {
 			System.out.println("Mensaje: " + inputLine);
             String funcion = "sin";
-            if (inputLine.startsWith("fun:")) {
+            if (inputLine.startsWith("fun")) {
                 String[] parts = inputLine.split(":");
                 if (parts.length == 2) {
                     funcion = parts[1];
@@ -67,14 +67,32 @@ public class EchoServer {
                                 inputLine = "Invalid function format.";
                             }
                         } else{
-                            inputLine = "Error: Unsupported function. Use sin, cos, or tan.";
-                        }
+                            double value = Double.parseDouble(inputLine);
+                            if(funcion.equals("sin")) {
+                                double result = Math.sin(value);
+                                inputLine = "Result: " + String.valueOf(result);
+                            } else if(funcion.equals("cos")) {
+                                double result = Math.cos(value);
+                                inputLine = "Result: " + String.valueOf(result);
+                            } else if(funcion.equals("tan")) {
+                                double result = Math.tan(value);
+                                inputLine = "Result: " + String.valueOf(result);
+                            }  }
                     } catch (NumberFormatException e) {
                         inputLine = "Error: Invalid number format.";
                     }
                 }else{
-                    inputLine = "Error: Invalid function format. Use fun:sin <value>, fun:cos <value>, or fun:tan <value>.";
-                }
+                    double value = Double.parseDouble(inputLine);
+                    if(funcion.equals("sin")) {
+                        double result = Math.sin(value);
+                        inputLine = "Result: " + String.valueOf(result);
+                    } else if(funcion.equals("cos")) {
+                        double result = Math.cos(value);
+                        inputLine = "Result: " + String.valueOf(result);
+                    } else if(funcion.equals("tan")) {
+                        double result = Math.tan(value);
+                        inputLine = "Result: " + String.valueOf(result);
+                    }} 
             }else{
 			    int doubledValue = Integer.parseInt(inputLine) * 2;
 			    inputLine = String.valueOf(doubledValue);
