@@ -84,6 +84,10 @@ Servidor que recibe un mensaje del cliente y responde el mismo mensaje con un pr
   - Puerto para publicar
   - IP y puerto del otro cliente (opcional)
 - **Clases**: `ChatInterface`, `ChatImpl`, `ChatApp`
+![image](https://github.com/user-attachments/assets/b633f09e-074e-4414-aecf-22d8a778f095)
+
+  
+![image](https://github.com/user-attachments/assets/07741bbf-a82f-4c96-b890-813e4224bf29)
 
 ---
 
